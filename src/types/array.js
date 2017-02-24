@@ -1,8 +1,8 @@
 import isArrayLikeObject from 'lodash/isArrayLikeObject';
 import Class from '../class';
 
-export default class Array extends Class {
-  constructor(defaultValue, innerType) {
+export default class _Array extends Class {
+  constructor(defaultValue = [], innerType) {
     super(defaultValue, `Array<${innerType.typeName}>`, {
       innerType,
     });
