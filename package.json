@@ -4,10 +4,10 @@
   "description": "Manages variables",
   "main": "index.js",
   "repository": {
-    "url": "https://github.com/dmnevius/Fetter",
+    "url": "https://github.com/nmde/Fetter",
     "type": "git"
   },
-  "author": "dmnevius",
+  "author": "nmde",
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.4"
