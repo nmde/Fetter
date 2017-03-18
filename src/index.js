@@ -1,6 +1,7 @@
 import Class from './class';
 import Simple from './simple';
 import is from './is';
+import enforce from './enforce';
 import Any from './types/any';
 import Array from './types/array';
 import Boolean from './types/boolean';
@@ -13,6 +14,7 @@ export default {
   Class,
   Simple,
   is,
+  enforce,
   Any,
   Array,
   Boolean,
