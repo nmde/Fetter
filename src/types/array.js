@@ -7,6 +7,9 @@ export default class _Array extends Class {
       innerType,
     });
   }
+  get(index) {
+    return this._value[index];
+  }
   check(newValues) {
     if (isArrayLikeObject(newValues)) {
       let valid = true;
