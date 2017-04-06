@@ -1,6 +1,6 @@
 {
   "name": "fetter",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "Manages variables",
   "main": "index.js",
   "repository": {
@@ -16,10 +16,14 @@
     "eslint": "^3.16.1",
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-plugin-import": "^2.2.0",
+    "qunitjs": "^2.3.0",
     "rollup": "^0.41.4",
     "rollup-plugin-buble": "^0.15.0",
     "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-uglify": "^1.0.1"
+  },
+  "scripts": {
+    "test": "./node_modules/qunitjs/bin/qunit test/test.js"
   }
 }

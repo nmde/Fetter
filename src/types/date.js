@@ -1,108 +1,57 @@
 import isDate from 'lodash/isDate';
-import Simple from '../simple';
+import isString from 'lodash/isString';
+import isNumber from 'lodash/isNumber';
+import Class from '../class';
 
-export default class _Date extends Simple {
-  constructor(defaultValue = new Date()) {
-    super(defaultValue, 'Date', isDate);
-    this.length = 7;
+class _Date extends Class {
+  constructor(
+    defaultValue = new Date(),
+    month = 0,
+    day = 1,
+    hours = 0,
+    minutes = 0,
+    seconds = 0, milliseconds = 0) {
+    super(defaultValue, 'Date', {
+      month,
+      day,
+      hours,
+      minutes,
+      seconds,
+      milliseconds,
+    });
+    const inherits = Object.getOwnPropertyNames(Date.prototype);
+    for (let i = 0; i < inherits.length; i += 1) {
+      this[inherits[i]] = (...args) => this._value[inherits[i]](args);
+    }
   }
-  getDate() {
-    return this._value.getDate();
+  check(newValue) {
+    return isDate(newValue) || isDate(newValue.value);
   }
-  getDay() {
-    return this._value.getDay();
-  }
-  getFullYear() {
-    return this._value.getFullYear();
-  }
-  getHours() {
-    return this._value.getHours();
-  }
-  getMilliseconds() {
-    return this._value.getMilliseconds();
-  }
-  getMinutes() {
-    return this._value.getMinutes();
-  }
-  getMonth() {
-    return this._value.getMonth();
-  }
-  getSeconds() {
-    return this._value.getSeconds();
-  }
-  getTime() {
-    return this._value.getTime();
-  }
-  getTimezoneOffset() {
-    return this._value.getTimezoneOffset();
-  }
-  getUTCDate() {
-    return this._value.getUTCDate();
-  }
-  getUTCDay() {
-    return this._value.getUTCDay();
-  }
-  getUTCFullYear() {
-    return this._value.getUTCFullYear();
-  }
-  getUTCHours() {
-    return this._value.getUTCHours();
-  }
-  getUTCMilliseconds() {
-    return this._value.getUTCMilliseconds();
-  }
-  getUTCMinutes() {
-    return this._value.getUTCMinutes();
-  }
-  getUTCMonth() {
-    return this._value.getUTCMonth();
-  }
-  getUTCSeconds() {
-    return this._value.getUTCSeconds();
-  }
-  setDate(dayValue) {
-    return this._value.setDate(dayValue);
-  }
-  setFullYear(yearValue, monthValue, dayValue) {
-    return this._value.setFullYear(yearValue, monthValue, dayValue);
-  }
-  setHours(hoursValue, minutesValue, secondsValue, msValue) {
-    return this._value.setHours(hoursValue, minutesValue, secondsValue, msValue);
-  }
-  setMilliseconds(millisecondsValue) {
-    return this._value.setMilliseconds(millisecondsValue);
-  }
-  setMinutes(minutesValue, secondsValue, msValue) {
-    return this._value.setMinutes(minutesValue, secondsValue, msValue);
-  }
-  setMonth(monthValue, dayValue) {
-    return this._value.setMonth(monthValue, dayValue);
-  }
-  setSeconds(secondsValue, msValue) {
-    return this._value.setSeconds(secondsValue, msValue);
-  }
-  setTime(timeValue) {
-    return this._value.setTime(timeValue);
-  }
-  setUTCDate(dayValue) {
-    return this._value.setUTCDate(dayValue);
-  }
-  setUTCFullYear(yearValue, monthValue, dayValue) {
-    return this._value.setUTCFullYear(yearValue, monthValue, dayValue);
-  }
-  setUTCHours(hoursValue, minutesValue, secondsValue, msValue) {
-    return this._value.setUTCHours(hoursValue, minutesValue, secondsValue, msValue);
-  }
-  setUTCMilliseconds(millisecondsValue) {
-    return this._value.setUTCMilliseconds(millisecondsValue);
-  }
-  setUTCMinutes(minutesValue, secondsValue, msValue) {
-    return this._value.setUTCMinutes(minutesValue, secondsValue, msValue);
-  }
-  setUTCMonth(monthValue, dayValue) {
-    return this._value.setUTCMonth(monthValue, dayValue);
-  }
-  setUTCSeconds(secondsValue, msValue) {
-    return this._value.setUTCSeconds(secondsValue, msValue);
+  set(newValue, ...extra) {
+    if (this.check(newValue)) {
+      this._value = newValue;
+    } else if (isString(newValue)) {
+      this._value = new Date(newValue);
+    } else if (extra.length > 0) {
+      this._value = new Date(newValue, extra);
+    } else if (isNumber(this.extra.month)) {
+      this._value = new Date(
+        newValue,
+        this.extra.month,
+        this.extra.day,
+        this.extra.hours,
+        this.extra.minutes,
+        this.extra.seconds,
+        this.extra.milliseconds);
+      this.extra = {};
+    } else {
+      throw new Error(`Value is not of type ${this.typeName} or String`);
+    }
   }
 }
+
+_Date.now = Date.now;
+_Date.parse = Date.parse;
+_Date.UTC = Date.UTC;
+
+export default _Date;
