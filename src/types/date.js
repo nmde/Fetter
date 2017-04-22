@@ -18,11 +18,7 @@ class _Date extends Class {
       minutes,
       seconds,
       milliseconds,
-    });
-    const inherits = Object.getOwnPropertyNames(Date.prototype);
-    for (let i = 0; i < inherits.length; i += 1) {
-      this[inherits[i]] = (...args) => this._value[inherits[i]](args);
-    }
+    }, Date);
   }
   check(newValue) {
     return isDate(newValue) || isDate(newValue.value);

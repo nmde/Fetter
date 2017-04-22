@@ -13,6 +13,6 @@ export default class Simple extends Class {
     }
   }
   check(newValue) {
-    return this.extra.checker(newValue) || this.extra.checker(newValue.value);
+    return this.extra.checker(newValue) || (newValue && newValue.value && this.extra.checker(newValue.value));
   }
 }
