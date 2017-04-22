@@ -52,6 +52,21 @@ QUnit.test('Array', (assert) => {
   assert.ok(same([1, 2], _numbers3.value));
 });
 
+QUnit.test('Boolean', (assert) => {
+  assert.ok(new Boolean().valueOf() === new f.Boolean().value);
+  assert.ok(new Boolean(0).valueOf() === new f.Boolean(0).value);
+  assert.ok(new Boolean(null).valueOf() === new f.Boolean(null).value);
+  assert.ok(new Boolean('').valueOf() === new f.Boolean('').value);
+  assert.ok(new Boolean(false).valueOf() === new f.Boolean(false).value);
+  assert.ok(false === new f.Boolean(false).value);
+  assert.ok(new Boolean(true).valueOf() === new f.Boolean(true).value);
+  assert.ok(new Boolean('true').valueOf() === new f.Boolean('true').value);
+  assert.ok(new Boolean('false').valueOf() === new f.Boolean('false').value);
+  assert.ok(new Boolean([]).valueOf() === new f.Boolean([]).value);
+  assert.ok(new Boolean({}).valueOf() === new f.Boolean({}).value);
+  assert.ok(true === new f.Boolean(true).value);
+});
+
 QUnit.test('Date', (assert) => {
   // assert.ok(new Date().toISOString() === new f.Date().toISOString());
   assert.ok(new Date('December 17, 1995 03:24:00').toISOString() === new f.Date('December 17, 1995 03:24:00').toISOString());
