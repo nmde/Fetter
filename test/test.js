@@ -1,4 +1,5 @@
 /* eslint max-len: ["off"] */
+/* eslint no-new-wrappers: ["off"] */
 const f = require('../dist/fetter');
 const QUnit = require('qunitjs');
 
@@ -58,13 +59,13 @@ QUnit.test('Boolean', (assert) => {
   assert.ok(new Boolean(null).valueOf() === new f.Boolean(null).value);
   assert.ok(new Boolean('').valueOf() === new f.Boolean('').value);
   assert.ok(new Boolean(false).valueOf() === new f.Boolean(false).value);
-  assert.ok(false === new f.Boolean(false).value);
+  assert.ok(new f.Boolean(false).value === false);
   assert.ok(new Boolean(true).valueOf() === new f.Boolean(true).value);
   assert.ok(new Boolean('true').valueOf() === new f.Boolean('true').value);
   assert.ok(new Boolean('false').valueOf() === new f.Boolean('false').value);
   assert.ok(new Boolean([]).valueOf() === new f.Boolean([]).value);
   assert.ok(new Boolean({}).valueOf() === new f.Boolean({}).value);
-  assert.ok(true === new f.Boolean(true).value);
+  assert.ok(new f.Boolean(true).value === true);
 });
 
 QUnit.test('Date', (assert) => {
@@ -73,4 +74,13 @@ QUnit.test('Date', (assert) => {
   assert.ok(new Date('1995-12-17T03:24:00').toISOString() === new f.Date('1995-12-17T03:24:00').toISOString());
   assert.ok(new Date(1995, 11, 17).toISOString() === new f.Date(1995, 11, 17).toISOString());
   assert.ok(new Date(1995, 11, 17, 3, 24, 0).toISOString() === new f.Date(1995, 11, 17, 3, 24, 0).toISOString());
+});
+
+QUnit.test('Function', (assert) => {
+  const _function1 = (a, b) => a + b;
+  const _function2 = new f.Function((a, b) => a + b);
+  assert.equal(_function1(1, 3), _function2.call(1, 3));
+  const _function3 = () => x => x;
+  const _function4 = new f.Function(() => new f.Function(x => x));
+  assert.equal(_function3()(4), _function4.call().call(4));
 });

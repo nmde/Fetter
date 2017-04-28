@@ -4,7 +4,6 @@ import is from './is';
 import enforce from './enforce';
 import _Any from './types/any';
 import _Array from './types/array';
-import _ArrayBuffer from './types/array-buffer';
 import _Boolean from './types/boolean';
 import _Date from './types/date';
 import _Function from './types/function';
@@ -18,7 +17,6 @@ export default {
   enforce,
   Any: _Any,
   Array: _Array,
-  ArrayBuffer: _ArrayBuffer,
   Boolean: _Boolean,
   Date: _Date,
   Function: _Function,

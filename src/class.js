@@ -9,7 +9,7 @@ export default class Class {
     if (parent) {
       const inherits = Object.getOwnPropertyNames(parent.prototype);
       for (let i = 0; i < inherits.length; i += 1) {
-        if (!this[inherits[i]] && isFunction(parent.prototype[inherits[i]])) {
+        if (inherits[i] !== 'arguments' && inherits[i] !== 'caller' && !this[inherits[i]] && isFunction(parent.prototype[inherits[i]])) {
           this[inherits[i]] = (...args) => this._value[inherits[i]](args);
         }
       }
