@@ -84,3 +84,13 @@ QUnit.test('Function', (assert) => {
   const _function4 = new f.Function(() => new f.Function(x => x));
   assert.equal(_function3()(4), _function4.call().call(4));
 });
+
+QUnit.test('Object', (assert) => {
+  const _obj1 = {
+    foo: 'bar',
+  };
+  const _obj2 = new f.Object({
+    foo: new f.String('bar'),
+  }, f.String);
+  assert.equal(_obj1.foo, _obj2.get(new f.String('foo')).value);
+});

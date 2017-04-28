@@ -12,7 +12,7 @@ const f = require('fetter');
 const myNumber = new f.Number(5);
 ```
 
-The contents of every Fetter object must be accessed through either their "value" property or their "get" method. They can be changed by setting their "value" property or using their "set" method. The exact behavior changes depending on which data type you are using.
+The contents of every Fetter object must be accessed through either their "value" property or their "get" method. They can be changed by setting their "value" property or using their "set" method. The exact behavior changes depending on which data type you are using. All Fetter objects also include a .equals method for easily testing if two Fetter objects are equal.
 
 ### Types
 
@@ -81,7 +81,6 @@ Fetter Booleans include the following utility methods:
 - .nand
 - .nor
 - .xnor
-- .equals
 
 #### Date
 Dates are identical to JavaScript date objects.
@@ -103,4 +102,4 @@ Fetter Numbers are identical to JavaScript numbers.
 
 
 #### String
-Fetter Strings are identical to JavaScript strings. 
+Fetter Strings are identical to JavaScript strings.
