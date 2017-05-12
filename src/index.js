@@ -2,6 +2,8 @@ import Class from './class';
 import Simple from './simple';
 import is from './is';
 import enforce from './enforce';
+import s from './simplify';
+import convert from './convert';
 import _Any from './types/any';
 import _Array from './types/array';
 import _Boolean from './types/boolean';
@@ -16,6 +18,8 @@ export default {
   Simple,
   is,
   enforce,
+  s,
+  convert,
   Any: _Any,
   Array: _Array,
   Boolean: _Boolean,

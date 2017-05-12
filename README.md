@@ -4,6 +4,10 @@ Manages variables and types.
 ### Why?
 I created Fetter to be used in my other libraries to enforce rules on the user.
 
+### Features
+- Force your users to supply compatible arguments
+- Force yourself to write good code
+- Get cutting-edge features instantly
 
 ### Usage
 Simply load Fetter, then access your desired data type through the main object.
@@ -103,3 +107,6 @@ Fetter Numbers are identical to JavaScript numbers.
 
 #### String
 Fetter Strings are identical to JavaScript strings.
+
+### Creating New Types
+Fetter provides two extensible classes for creating new types, "Class" and "Simple". The simple class should be used to make simple types that only store data, like "String", "Number" and "Boolean". For more complex types, the generic "Class" should be used. "Array" and "Object" both use Class.
