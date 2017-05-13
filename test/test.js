@@ -222,3 +222,10 @@ QUnit.test('Array', (assert) => {
       currency: new f.String('JPY'),
     })).value);
 });
+
+QUnit.test('Boolean', (assert) => {
+  assert.equal(false.toString(), new f.Boolean(false).toString().value);
+  assert.equal(true.toString(), new f.Boolean(true).toString().value);
+  assert.equal(false.valueOf(), new f.Boolean(false).valueOf());
+  assert.equal(true.valueOf(), new f.Boolean(true).valueOf());
+});

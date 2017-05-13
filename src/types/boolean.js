@@ -10,10 +10,10 @@ class _Boolean extends Simple {
     return this._value;
   }
   toString() {
-    if (this._value === true) {
-      return new _String(`${this._value}`);
-    }
-    return new _String('false');
+    return new _String(`${this._value}`);
+  }
+  valueOf() {
+    return this._value;
   }
 }
 
