@@ -1,7 +1,8 @@
 import Class from '../class';
+import s from '../simplify';
 
 export default class Any extends Class {
   constructor(defaultValue) {
-    super(defaultValue, 'Any');
+    super(s(defaultValue), 'Any');
   }
 }

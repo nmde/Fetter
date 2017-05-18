@@ -2,6 +2,7 @@ import isDate from 'lodash/isDate';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import Class from '../class';
+import s from '../simplify';
 
 class _Date extends Class {
   constructor(
@@ -10,18 +11,19 @@ class _Date extends Class {
     day = 1,
     hours = 0,
     minutes = 0,
-    seconds = 0, milliseconds = 0) {
-    super(defaultValue, 'Date', {
-      month,
-      day,
-      hours,
-      minutes,
-      seconds,
-      milliseconds,
+    seconds = 0,
+    milliseconds = 0) {
+    super(s(defaultValue), 'Date', {
+      month: s(month),
+      day: s(day),
+      hours: s(hours),
+      minutes: s(minutes),
+      seconds: s(seconds),
+      milliseconds: s(milliseconds),
     }, Date);
   }
   check(newValue) {
-    return isDate(newValue) || isDate(newValue.value);
+    return isDate(s(newValue));
   }
   set(newValue, ...extra) {
     if (this.check(newValue)) {

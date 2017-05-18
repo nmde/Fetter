@@ -1,9 +1,10 @@
 import Simple from '../simple';
+import s from '../simplify';
 import _String from './string';
 
 class _Boolean extends Simple {
   constructor(defaultValue = false) {
-    super(defaultValue, 'Boolean', () => true, Boolean);
+    super(s(defaultValue), 'Boolean', () => true, Boolean);
   }
   set(newValue) {
     this._value = Boolean(newValue);

@@ -229,3 +229,44 @@ QUnit.test('Boolean', (assert) => {
   assert.equal(false.valueOf(), new f.Boolean(false).valueOf());
   assert.equal(true.valueOf(), new f.Boolean(true).valueOf());
 });
+
+QUnit.test('Date', (assert) => {
+  // Constructing
+  const _date1 = new Date();
+  const _date2 = new f.Date();
+  assert.equal(_date1.toDateString(), _date2.toDateString().value);
+  const _date3 = new Date('December 17, 1995 03:24:00');
+  const _date4 = new f.Date(new f.String('December 17, 1995 03:24:00'));
+  assert.equal(_date3.toDateString(), _date4.toDateString().value);
+  const _date5 = new Date(1995, 11, 17);
+  const _date6 = new f.Date(new f.Number(1995), new f.Number(11), new f.Number(17));
+  assert.equal(_date5.toDateString(), _date6.toDateString().value);
+
+  assert.equal(Date.now(), f.Date.now().value);
+  assert.equal(Date.parse('Aug 9, 1995'), f.Date.parse(new f.String('Aug 9, 1995')).value);
+  assert.equal(Date.parse('Wed, 09 Aug 1995 00:00:00 GMT'), f.Date.parse(new f.String('Wed, 09 Aug 1995 00:00:00 GMT')).value);
+  assert.equal(Date.UTC(96, 11, 1, 0, 0, 0), f.Date.UTC(new f.Number(96), new f.Number(11), new f.Number(1), new f.Number(0), new f.Number(0), new f.Number(0)).value);
+
+  // Various getter methods
+  assert.equal(new Date().getDate(), new f.Date().getDate().value);
+  assert.equal(new Date().getDay(), new f.Date().getDay().value);
+  assert.equal(new Date().getFullYear(), new f.Date().getFullYear().value);
+  assert.equal(new Date().getHours(), new f.Date().getHours().value);
+  assert.equal(new Date().getMilliseconds(), new f.Date().getMilliseconds().value);
+  assert.equal(new Date().getMinutes(), new f.Date().getMinutes().value);
+  assert.equal(new Date().getMonth(), new f.Date().getMonth().value);
+  assert.equal(new Date().getSeconds(), new f.Date().getSeconds().value);
+  assert.equal(new Date().getTimezoneOffset(), new f.Date().getTimezoneOffset().value);
+  assert.equal(new Date().getUTCDate(), new f.Date().getUTCDate().value);
+  assert.equal(new Date().getUTCDay(), new f.Date().getUTCDay().value);
+  assert.equal(new Date().getUTCFullYear(), new f.Date().getUTCFullYear().value);
+  assert.equal(new Date().getUTCHours(), new f.Date().getUTCHours().value);
+  assert.equal(new Date().getUTCMilliseconds(), new f.Date().getUTCMilliseconds().value);
+  assert.equal(new Date().getUTCMinutes(), new f.Date().getUTCMinutes().value);
+  assert.equal(new Date().getUTCMonth(), new f.Date().getUTCMonth().value);
+  assert.equal(new Date().getUTCSeconds(), new f.Date().getUTCSeconds().value);
+  assert.equal(new Date().getYear(), new f.Date().getYear().value);
+
+  // Various setter methods
+  
+});

@@ -1,10 +1,11 @@
 import isObject from 'lodash/isObject';
 import Class from '../class';
 import Any from './any';
+import s from '../simplify';
 
 class _Object extends Class {
   constructor(defaultValue = {}, Subtype = Any) {
-    super(defaultValue, 'Object', {
+    super(s(defaultValue), 'Object', {
       subtype: new Subtype(),
       SubtypeConstructor: Subtype,
     }, Object);

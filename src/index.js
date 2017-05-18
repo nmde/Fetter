@@ -4,28 +4,21 @@ import is from './is';
 import enforce from './enforce';
 import s from './simplify';
 import convert from './convert';
-import _Any from './types/any';
-import _Array from './types/array';
-import _Boolean from './types/boolean';
-import _Date from './types/date';
-import _Function from './types/function';
-import _Number from './types/number';
-import _Object from './types/object';
-import _String from './types/string';
+import types from './types';
 
-export default {
+const exports = {
   Class,
   Simple,
   is,
   enforce,
   s,
   convert,
-  Any: _Any,
-  Array: _Array,
-  Boolean: _Boolean,
-  Date: _Date,
-  Function: _Function,
-  Number: _Number,
-  Object: _Object,
-  String: _String,
+  types,
 };
+
+const typeList = Object.getOwnPropertyNames(types);
+for (let i = 0; i < typeList.length; i += 1) {
+  exports[typeList[i]] = types[typeList[i]];
+}
+
+export default exports;

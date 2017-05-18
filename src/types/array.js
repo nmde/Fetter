@@ -10,7 +10,7 @@ import _String from './string';
 
 class _Array extends Class {
   constructor(defaultValue = [], Subtype = Any) {
-    super(defaultValue, 'Array', {
+    super(s(defaultValue), 'Array', {
       subtype: new Subtype(),
       SubtypeConstructor: Subtype,
       makeError(from, ...args) {

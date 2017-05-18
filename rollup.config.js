@@ -2,7 +2,7 @@
 import buble from 'rollup-plugin-buble';
 import uglify from 'rollup-plugin-uglify';
 
-const externs = ['isFunction', 'isArrayLikeObject', 'isNumber', 'isString', 'isDate', 'isObject', 'isPlainObject'];
+const externs = ['isFunction', 'isArrayLikeObject', 'isNumber', 'isString', 'isDate', 'isObject', 'isPlainObject', 'isBoolean'];
 const external = [];
 const globals = {};
 

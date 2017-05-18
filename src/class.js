@@ -1,4 +1,5 @@
 import isFunction from 'lodash/isFunction';
+import s from './simplify';
 
 export default class Class {
   constructor(defaultValue, typeName = 'Class', extra = {}, parent) {
@@ -10,7 +11,7 @@ export default class Class {
       const inherits = Object.getOwnPropertyNames(parent.prototype);
       for (let i = 0; i < inherits.length; i += 1) {
         if (inherits[i] !== 'arguments' && inherits[i] !== 'caller' && !this[inherits[i]] && isFunction(parent.prototype[inherits[i]])) {
-          this[inherits[i]] = (...args) => this._value[inherits[i]](args);
+          this[inherits[i]] = (...args) => this._value[inherits[i]](args.map(arg => s(arg)));
         }
       }
     }
