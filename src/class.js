@@ -25,6 +25,9 @@ export default class Class {
   check() {
     return true;
   }
+  static strictCheck() {
+    return this.check();
+  }
   get() {
     return this._value;
   }

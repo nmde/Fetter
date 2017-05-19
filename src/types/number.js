@@ -4,6 +4,6 @@ import s from '../simplify';
 
 export default class _Number extends Simple {
   constructor(defaultValue = 0) {
-    super(s(defaultValue), 'Number', isNumber);
+    super(s(defaultValue), 'Number', newValue => isNumber(s(newValue)));
   }
 }

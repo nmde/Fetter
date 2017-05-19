@@ -1,3 +1,3 @@
 export default function is(value, Type) {
-  return new Type().check(value);
+  return Type.strictCheck(value);
 }

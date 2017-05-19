@@ -4,6 +4,6 @@ import s from '../simplify';
 
 export default class _String extends Simple {
   constructor(defaultValue = '') {
-    super(s(defaultValue), 'String', isString);
+    super(s(defaultValue), 'String', newValue => isString(s(newValue)));
   }
 }

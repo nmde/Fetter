@@ -1,4 +1,4 @@
-import isObject from 'lodash/isObject';
+import isPlainObject from 'lodash/isPlainObject';
 import Class from '../class';
 import Any from './any';
 import s from '../simplify';
@@ -11,7 +11,7 @@ class _Object extends Class {
     }, Object);
   }
   check(newValue) {
-    return isObject(newValue);
+    return isPlainObject(s(newValue));
   }
   get(key) {
     if (typeof key !== 'undefined') {

@@ -1,4 +1,5 @@
 /* eslint import/extensions: ["off"] */
+/* eslint no-unused-vars: ["off"] */
 import buble from 'rollup-plugin-buble';
 import uglify from 'rollup-plugin-uglify';
 
