@@ -230,7 +230,7 @@ QUnit.test('Boolean', (assert) => {
   assert.equal(true.valueOf(), new f.Boolean(true).valueOf());
 });
 
-/* QUnit.test('Date', (assert) => {
+QUnit.test('Date', (assert) => {
   // Constructing
   const _date1 = new Date();
   const _date2 = new f.Date();
@@ -247,7 +247,7 @@ QUnit.test('Boolean', (assert) => {
   assert.equal(Date.parse('Wed, 09 Aug 1995 00:00:00 GMT'), f.Date.parse(new f.String('Wed, 09 Aug 1995 00:00:00 GMT')).value);
   assert.equal(Date.UTC(96, 11, 1, 0, 0, 0), f.Date.UTC(new f.Number(96), new f.Number(11), new f.Number(1), new f.Number(0), new f.Number(0), new f.Number(0)).value);
 
-  // Various getter methods
+  // Getter methods
   assert.equal(new Date().getDate(), new f.Date().getDate().value);
   assert.equal(new Date().getDay(), new f.Date().getDay().value);
   assert.equal(new Date().getFullYear(), new f.Date().getFullYear().value);
@@ -267,6 +267,70 @@ QUnit.test('Boolean', (assert) => {
   assert.equal(new Date().getUTCSeconds(), new f.Date().getUTCSeconds().value);
   assert.equal(new Date().getYear(), new f.Date().getYear().value);
 
-  // Various setter methods
+  // Setter methods
+  const _theBigDay1 = new Date(1962, 6, 7);
+  const _theBigDay2 = new f.Date(new f.Number(1962), new f.Number(6), new f.Number(7));
+  _theBigDay1.setDate(24);
+  _theBigDay2.setDate(new f.Number(24));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setFullYear(1997);
+  _theBigDay2.setFullYear(new f.Number(1997));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setHours(1);
+  _theBigDay2.setHours(new f.Number(1));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setMilliseconds(100);
+  _theBigDay2.setMilliseconds(new f.Number(100));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setMinutes(45);
+  _theBigDay2.setMinutes(new f.Number(45));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setMonth(1);
+  _theBigDay2.setMonth(new f.Number(1));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setSeconds(30);
+  _theBigDay2.setSeconds(new f.Number(30));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setTime(new Date().getTime());
+  _theBigDay2.setTime(new f.Date().getTime());
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setUTCDate(20);
+  _theBigDay2.setUTCDate(new f.Number(20));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setUTCFullYear(1998);
+  _theBigDay2.setUTCFullYear(new f.Number(1998));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setUTCHours(8);
+  _theBigDay2.setUTCHours(new f.Number(8));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setUTCMilliseconds(500);
+  _theBigDay2.setUTCMilliseconds(new f.Number(500));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setUTCMinutes(43);
+  _theBigDay2.setUTCMinutes(new f.Number(43));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setUTCMonth(11);
+  _theBigDay2.setUTCMonth(new f.Number(11));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setUTCSeconds(20);
+  _theBigDay2.setUTCSeconds(new f.Number(20));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
+  _theBigDay1.setYear(2000);
+  _theBigDay2.setYear(new f.Number(2000));
+  assert.equal(_theBigDay1.toDateString(), _theBigDay2.toDateString().value);
 
-}); */
+  // Conversion methods
+  assert.equal(new Date().toDateString(), new f.Date().toDateString().value);
+  assert.equal(new Date('05 October 2011 14:48 UTC').toISOString(), new f.Date(new f.String('05 October 2011 14:48 UTC')).toISOString().value);
+  assert.equal(new Date().toJSON(), new f.Date().toJSON().value);
+  assert.equal(new Date().toGMTString(), new f.Date().toGMTString().value);
+  assert.equal(new Date().toLocaleDateString(), new f.Date().toLocaleDateString().value);
+  assert.equal(new Date().toLocaleDateString('ko-KR'), new f.Date().toLocaleDateString(new f.String('ko-KR')).value);
+  assert.equal(new Date().toLocaleString(), new f.Date().toLocaleString().value);
+  assert.equal(new Date().toLocaleString('ar-EG'), new f.Date().toLocaleString(new f.String('ar-EG')).value);
+  assert.equal(new Date().toLocaleTimeString(), new f.Date().toLocaleTimeString().value);
+  assert.equal(new Date().toLocaleTimeString('ko-KR'), new f.Date().toLocaleTimeString(new f.String('ko-KR')).value);
+  assert.equal(new Date().toString(), new f.Date().toString().value);
+  assert.equal(new Date().toTimeString(), new f.Date().toTimeString().value);
+  assert.equal(new Date().toUTCString(), new f.Date().toUTCString().value);
+});
