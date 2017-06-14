@@ -1,12 +1,16 @@
 import isFunction from 'lodash/isFunction';
 import s from './simplify';
+import autoDefine from './autoDefine';
 
 export default class Class {
-  constructor(defaultValue, typeName = 'Class', extra = {}, parent) {
+  constructor(defaultValue, typeName = 'Class', extra = {}, parent, auto) {
     this.typeName = typeName;
     this.extra = extra;
     this.fetter = true;
     this.set(defaultValue);
+    if (auto) {
+      autoDefine(this, auto, parent.prototype);
+    }
     if (parent) {
       const inherits = Object.getOwnPropertyNames(parent.prototype);
       for (let i = 0; i < inherits.length; i += 1) {

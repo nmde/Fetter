@@ -24,22 +24,9 @@ class _Date extends Class {
       minutes: s(minutes),
       seconds: s(seconds),
       milliseconds: s(milliseconds),
+    }, Date, {
+      toDateString: _String,
     });
-    const inherits = Object.getOwnPropertyNames(Date.prototype);
-    for (let i = 0; i < inherits.length; i += 1) {
-      if (!this[inherits[i]] && isFunction(Date.prototype[inherits[i]])) {
-        if (inherits[i].indexOf('get') === 0 || inherits[i].indexOf('set') === 0) {
-          this[inherits[i]] = (...args) =>
-            new _Number(this._value[inherits[i]](args.map(arg => s(arg))));
-        } else if (inherits[i].indexOf('to') === 0) {
-          this[inherits[i]] = (...args) =>
-            new _String(this._value[inherits[i]](args.map(arg => s(arg))));
-        } else {
-          this[inherits[i]] = (...args) =>
-            new _Any(this._value[inherits[i]](args.map(arg => s(arg))));
-        }
-      }
-    }
   }
   check(newValue) {
     return isDate(s(newValue));
@@ -65,9 +52,17 @@ class _Date extends Class {
       throw new Error(`Value is not of type ${this.typeName} or String`);
     }
   }
+  static now() {
+    return new _Number(Date.now());
+  }
+  static parse(dateString) {
+    return new _Number(Date.parse(s(dateString)));
+  }
+  static UTC(year, month, day = 1, hour = 0, minute = 0, second = 0, millisecond = 0) {
+    return new _Number(
+      Date.UTC(s(year), s(month), s(day), s(hour), s(minute), s(second), s(millisecond)));
+  }
   // @TODO: Maybe add toLocaleFormat?
-
-  // These have to be manually defined because for some reason they are inherited from f.Class
   toLocaleString(locales, options) {
     return new _String(this._value.toLocaleString(s(locales), s(options)));
   }
@@ -75,10 +70,5 @@ class _Date extends Class {
     return new _String(this._value.toString());
   }
 }
-
-_Date.now = () => new _Number(Date.now());
-_Date.parse = dateString => new _Number(Date.parse(s(dateString)));
-_Date.UTC = (year, month, day = 1, hour = 0, minute = 0, second = 0, millisecond = 0) =>
-  new _Number(Date.UTC(s(year), s(month), s(day), s(hour), s(minute), s(second), s(millisecond)));
 
 export default _Date;

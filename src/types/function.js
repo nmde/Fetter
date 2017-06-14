@@ -9,6 +9,10 @@ class _Function extends Simple {
   apply(args) {
     return this._value(...s(args));
   }
+  bind(thisArg, ...args) {
+    // Bind cannot be defined with autoDefine
+    return new _Function(this._value.bind(thisArg, args));
+  }
   call(...args) {
     return this.apply(args);
   }

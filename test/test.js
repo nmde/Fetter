@@ -4,17 +4,22 @@ const f = require('../dist/fetter');
 const QUnit = require('qunitjs');
 require('./includes');
 
-QUnit.test('Array', (assert) => {
-  // Helper to determine if arrays are the same
-  function same(_array1, _array2) {
-    let result = _array1.length === _array2.length;
-    if (result) {
-      for (let i = 0; i < _array1.length; i += 1) {
-        result = result && _array1[i] === _array2[i].value;
-      }
+function sameObject(obj1, obj2) {
+  return JSON.stringify(obj1) === JSON.stringify(f.s(obj2));
+}
+
+function sameArray(array1, array2) {
+  const _array2 = f.s(array2);
+  let result = array1.length === _array2.length;
+  if (result) {
+    for (let i = 0; i < array1.length; i += 1) {
+      result = result && array1[i].toString() === _array2[i].toString();
     }
-    return result;
   }
+  return result;
+}
+
+QUnit.test('Array', (assert) => {
   function a(...args) {
     return Array.from(args);
   }
@@ -23,19 +28,20 @@ QUnit.test('Array', (assert) => {
   }
 
   // Array.from
-  assert.ok(same(Array.from(['a', 'b', 'c']), f.Array.from(['a', 'b', 'c']).value));
-  assert.ok(same(Array.from(['a', 'b', 'c']), f.Array.from(new f.Array([new f.String('a'), new f.String('b'), new f.String('c')], f.String)).value));
-  assert.ok(same(Array.from('foo'), f.Array.from('foo').value));
-  assert.ok(same(Array.from('foo'), f.Array.from(new f.String('foo')).value));
-  assert.ok(same(Array.from(new Set(['foo', this])), f.Array.from(new Set(['foo', this])).value));
-  assert.ok(same(Array.from(new Set(['foo', this])), f.Array.from(new Set([new f.String('foo'), this])).value));
+  assert.ok(sameArray(Array.from(['a', 'b', 'c']), f.Array.from(['a', 'b', 'c']).value));
+  assert.ok(sameArray(Array.from(['a', 'b', 'c']), f.Array.from(new f.Array([new f.String('a'), new f.String('b'), new f.String('c')], f.String)).value));
+  assert.ok(sameArray(Array.from('foo'), f.Array.from('foo').value));
+  assert.ok(sameArray(Array.from('foo'), f.Array.from(new f.String('foo')).value));
+  assert.ok(sameArray(Array.from(new Set(['foo', this])), f.Array.from(new Set(['foo', this])).value));
+  assert.ok(sameArray(Array.from(new Set(['foo', this])), f.Array.from(new Set([new f.String('foo'), this])).value));
+
   // @TODO: f.Map
-  // assert.ok(same(Array.from(new Map([1, 2], [2, 4], [4, 8])), f.Array.from(new Map([1, 2], [2, 4], [4, 8])).value));
-  // assert.ok(same(Array.from(new Map([1, 2], [2, 4], [4, 8])), f.Array.from(new Map(new f.Array([new f.Number(1), new f.Number(2)], f.Number), new f.Array([new f.Number(2), new f.Number(4)], f.Number), new f.Array([new f.Number(4), new f.Number(8)], f.Number))).value));
-  assert.ok(same(Array.from(a()), f.Array.from(a()).value));
-  assert.ok(same(Array.from(a()), f.Array.from(b()).value));
-  assert.ok(same(Array.from([1, 2, 3], x => x + x), f.Array.from([1, 2, 3], x => x + x).value));
-  assert.ok(same(Array.from([1, 2, 3], x => x + x), f.Array.from(new f.Array([new f.Number(1), new f.Number(2), new f.Number(3)], f.Number), new f.Function(x => x + x)).value));
+  // assert.ok(sameArray(Array.from(new Map([1, 2], [2, 4], [4, 8])), f.Array.from(new Map([1, 2], [2, 4], [4, 8])).value));
+  // assert.ok(sameArray(Array.from(new Map([1, 2], [2, 4], [4, 8])), f.Array.from(new Map(new f.Array([new f.Number(1), new f.Number(2)], f.Number), new f.Array([new f.Number(2), new f.Number(4)], f.Number), new f.Array([new f.Number(4), new f.Number(8)], f.Number))).value));
+  assert.ok(sameArray(Array.from(a()), f.Array.from(a()).value));
+  assert.ok(sameArray(Array.from(a()), f.Array.from(b()).value));
+  assert.ok(sameArray(Array.from([1, 2, 3], x => x + x), f.Array.from([1, 2, 3], x => x + x).value));
+  assert.ok(sameArray(Array.from([1, 2, 3], x => x + x), f.Array.from(new f.Array([new f.Number(1), new f.Number(2), new f.Number(3)], f.Number), new f.Function(x => x + x)).value));
 
   // Array.isArray
   assert.equal(Array.isArray([1, 2, 3]), f.Array.isArray([1, 2, 3]).value);
@@ -52,44 +58,44 @@ QUnit.test('Array', (assert) => {
   assert.equal(Array.isArray(), f.Array.isArray().value);
 
   // Array.of
-  assert.ok(same(Array.of(7), f.Array.of(7).value));
-  assert.ok(same(Array.of(7), f.Array.of(new f.Number(7)).value));
-  assert.ok(same(Array.of(1, 2, 3), f.Array.of(1, 2, 3).value));
-  assert.ok(same(Array.of(1, 2, 3), f.Array.of(new f.Number(1), new f.Number(2), new f.Number(3)).value));
+  assert.ok(sameArray(Array.of(7), f.Array.of(7).value));
+  assert.ok(sameArray(Array.of(7), f.Array.of(new f.Number(7)).value));
+  assert.ok(sameArray(Array.of(1, 2, 3), f.Array.of(1, 2, 3).value));
+  assert.ok(sameArray(Array.of(1, 2, 3), f.Array.of(new f.Number(1), new f.Number(2), new f.Number(3)).value));
 
   // Array.prototype.copyWithin
-  assert.ok(same(['alpha', 'bravo', 'charlie', 'delta'].copyWithin(2, 0), new f.Array([new f.String('alpha'), new f.String('bravo'), new f.String('charlie'), new f.String('delta')], f.String).copyWithin(2, 0).value));
-  assert.ok(same([1, 2, 3, 4, 5].copyWithin(-2), new f.Array([1, 2, 3, 4, 5], f.Number).copyWithin(-2).value));
-  assert.ok(same([1, 2, 3, 4, 5].copyWithin(0, 3), new f.Array([1, 2, 3, 4, 5], f.Number).copyWithin(0, 3).value));
-  assert.ok(same([1, 2, 3, 4, 5].copyWithin(0, 3, 4), new f.Array([1, 2, 3, 4, 5], f.Number).copyWithin(0, 3, 4).value));
-  assert.ok(same([1, 2, 3, 4, 5].copyWithin(-2, -3, -1), new f.Array([1, 2, 3, 4, 5], f.Number).copyWithin(-2, -3, -1).value));
+  assert.ok(sameArray(['alpha', 'bravo', 'charlie', 'delta'].copyWithin(2, 0), new f.Array([new f.String('alpha'), new f.String('bravo'), new f.String('charlie'), new f.String('delta')], f.String).copyWithin(2, 0).value));
+  assert.ok(sameArray([1, 2, 3, 4, 5].copyWithin(-2), new f.Array([1, 2, 3, 4, 5], f.Number).copyWithin(-2).value));
+  assert.ok(sameArray([1, 2, 3, 4, 5].copyWithin(0, 3), new f.Array([1, 2, 3, 4, 5], f.Number).copyWithin(0, 3).value));
+  assert.ok(sameArray([1, 2, 3, 4, 5].copyWithin(0, 3, 4), new f.Array([1, 2, 3, 4, 5], f.Number).copyWithin(0, 3, 4).value));
+  assert.ok(sameArray([1, 2, 3, 4, 5].copyWithin(-2, -3, -1), new f.Array([1, 2, 3, 4, 5], f.Number).copyWithin(-2, -3, -1).value));
 
   // Array.prototype.fill
-  assert.ok(same([1, 2, 3].fill(1), new f.Array([1, 2, 3], f.Number).fill(new f.Number(1)).value));
-  assert.ok(same([1, 2, 3].fill(4, 1), new f.Array([1, 2, 3], f.Number).fill(new f.Number(4), new f.Number(1)).value));
+  assert.ok(sameArray([1, 2, 3].fill(1), new f.Array([1, 2, 3], f.Number).fill(new f.Number(1)).value));
+  assert.ok(sameArray([1, 2, 3].fill(4, 1), new f.Array([1, 2, 3], f.Number).fill(new f.Number(4), new f.Number(1)).value));
   assert.throws(() => new f.Array([1, 2, 3], f.Number).fill('foo'));
   assert.throws(() => new f.Array([1, 2, 3], f.Number).fill(new f.String('foo')));
-  assert.ok(same([1, 2, 3].fill(4, 1, 2), new f.Array([1, 2, 3], f.Number).fill(4, 1, 2).value));
-  assert.ok(same([1, 2, 3].fill(4, -3, -2), new f.Array([1, 2, 3], f.Number).fill(4, -3, -2).value));
+  assert.ok(sameArray([1, 2, 3].fill(4, 1, 2), new f.Array([1, 2, 3], f.Number).fill(4, 1, 2).value));
+  assert.ok(sameArray([1, 2, 3].fill(4, -3, -2), new f.Array([1, 2, 3], f.Number).fill(4, -3, -2).value));
 
   // Array.prototype.pop
   const _a1 = [1, 2, 3];
   const _a2 = new f.Array([1, 2, 3]);
   _a1.pop();
   _a2.pop();
-  assert.ok(same(_a1, _a2.value));
+  assert.ok(sameArray(_a1, _a2.value));
 
   // Array.prototype.push
   const _numbers1 = [1, 2, 3];
   const _numbers2 = new f.Array([1, 2, 3], f.Number);
   _numbers1.push(4);
   _numbers2.push(new f.Number(4));
-  assert.ok(same(_numbers1, _numbers2.value));
+  assert.ok(sameArray(_numbers1, _numbers2.value));
   const _sports1 = ['soccer', 'baseball'];
   const _sports2 = new f.Array(['soccer', 'baseball'], f.String);
   _sports1.push('football', 'swimming');
   _sports2.push('football', 'swimming');
-  assert.ok(same(_sports1, _sports2.value));
+  assert.ok(sameArray(_sports1, _sports2.value));
   const _vegetables1 = ['parsnip', 'potato'];
   const _vegetables2 = new f.Array(['parsnip', 'potato']);
   Array.prototype.push.apply(_vegetables1, ['celery', 'beetroot']);
@@ -100,14 +106,14 @@ QUnit.test('Array', (assert) => {
   const _b = new f.Array(['one', 'two', 'three']);
   _a.reverse();
   _b.reverse();
-  assert.ok(same(_a, _b.value));
+  assert.ok(sameArray(_a, _b.value));
 
   // Array.prototype.shift
   const _c = [1, 2, 3];
   const _d = new f.Array([1, 2, 3]);
   const _e = _c.shift();
   const _f = _d.shift();
-  assert.ok(same(_c, _d.value));
+  assert.ok(sameArray(_c, _d.value));
   assert.equal(_e, _f.value);
 
   // Array.prototype.sort
@@ -115,33 +121,33 @@ QUnit.test('Array', (assert) => {
   const _fruit2 = new f.Array(['cherries', 'apples', 'bananas']);
   _fruit1.sort();
   _fruit2.sort();
-  assert.ok(same(_fruit1, _fruit2.value));
+  assert.ok(sameArray(_fruit1, _fruit2.value));
   const _scores1 = [1, 10, 21, 2];
   const _scores2 = new f.Array([1, 10, 21, 2]);
   _scores1.sort();
   _scores2.sort();
-  assert.ok(same(_scores1, _scores2.value));
+  assert.ok(sameArray(_scores1, _scores2.value));
 
   // Array.prototype.splice
   const _myFish1 = ['angel', 'clown', 'mandarin', 'sturgeon'];
   const _myFish2 = new f.Array(['angel', 'clown', 'mandarin', 'sturgeon']);
   const _removed1 = _myFish1.splice(2, 0, 'drum');
   const _removed2 = _myFish2.splice(new f.Number(2), new f.Number(0), new f.String('drum'));
-  assert.ok(same(_myFish1, _myFish2.value));
-  assert.ok(same(_removed1, _removed2.value));
+  assert.ok(sameArray(_myFish1, _myFish2.value));
+  assert.ok(sameArray(_removed1, _removed2.value));
   const _myFish3 = ['angel', 'clown', 'mandarin', 'sturgeon'];
   const _myFish4 = new f.Array(['angel', 'clown', 'mandarin', 'sturgeon']);
   const _removed3 = _myFish3.splice(3, 1);
   const _removed4 = _myFish4.splice(new f.Number(3), new f.Number(1));
-  assert.ok(same(_myFish3, _myFish4.value));
-  assert.ok(same(_removed3, _removed4.value));
+  assert.ok(sameArray(_myFish3, _myFish4.value));
+  assert.ok(sameArray(_removed3, _removed4.value));
 
   // Array.prototype.unshift
   const _a3 = [1, 2, 3];
   const _a4 = new f.Array([1, 2, 3]);
   _a3.unshift(4, 5);
   _a4.unshift(new f.Number(4), new f.Number(5));
-  assert.ok(same(_a3, _a4.value));
+  assert.ok(sameArray(_a3, _a4.value));
 
   // Array.prototype.concat
   const _arr11 = ['a', 'b', 'c'];
@@ -150,7 +156,7 @@ QUnit.test('Array', (assert) => {
   const _arr21 = new f.Array(['a', 'b', 'c']);
   const _arr22 = new f.Array(['d', 'e', 'f']);
   const _arr23 = _arr21.concat(_arr22);
-  assert.ok(same(_arr13, _arr23.value));
+  assert.ok(sameArray(_arr13, _arr23.value));
   const _arr31 = new f.Array(['a', 'b', 'c'], f.String);
   const _arr32 = new f.Array([1, 2, 3], f.Number);
   assert.throws(() => _arr31.concat(_arr32));
@@ -162,7 +168,7 @@ QUnit.test('Array', (assert) => {
   const _nums22 = new f.Array([4, 5, 6]);
   const _nums23 = new f.Array([7, 8, 9]);
   const _nums24 = _nums21.concat(_nums22, _nums23);
-  assert.ok(same(_nums14, _nums24.value));
+  assert.ok(sameArray(_nums14, _nums24.value));
 
   // Array.prototype.includes
   const _a5 = [1, 2, 3];
@@ -201,8 +207,8 @@ QUnit.test('Array', (assert) => {
   const _fruits2 = new f.Array(['Banana', 'Orange', 'Lemon', 'Apple', 'Mango']);
   const _fruits3 = _fruits1.slice(1, 3);
   const _fruits4 = _fruits2.slice(new f.Number(1), new f.Number(3));
-  assert.ok(same(_fruits1, _fruits2.value));
-  assert.ok(same(_fruits3, _fruits4.value));
+  assert.ok(sameArray(_fruits1, _fruits2.value));
+  assert.ok(sameArray(_fruits3, _fruits4.value));
 
   // Array.prototype.toString
   const _months1 = ['Jan', 'Feb', 'Mar', 'Apr'];
@@ -333,4 +339,224 @@ QUnit.test('Date', (assert) => {
   assert.equal(new Date().toString(), new f.Date().toString().value);
   assert.equal(new Date().toTimeString(), new f.Date().toTimeString().value);
   assert.equal(new Date().toUTCString(), new f.Date().toUTCString().value);
+});
+
+/* QUnit.test('Function', (assert) => {
+  assert.equal((() => 5)(), new f.Function(() => new f.Number(5)).call().value);
+  assert.equal(((x, y) => x + y)(2, 3), new f.Function((x, y) => new f.Number(f.s(x) + f.s(y))).call(new f.Number(2), new f.Number(3)).value);
+  assert.equal(((x, y) => x + y)(2, 3), new f.Function((x, y) => new f.Number(f.s(x) + f.s(y))).apply(new f.Array([new f.Number(2), new f.Number(3)])).value);
+  const _obj1 = {
+    x: 5,
+    getX() {
+      return this.x;
+    },
+    inner: {
+      x: 7,
+      getX() {
+        return this.x;
+      },
+    },
+  };
+  const _obj2 = new f.Object({
+    x: new f.Number(5),
+    getX: new f.Function(function getX() { return this.x; }),
+    inner: new f.Object({
+      x: new f.Number(7),
+      getX: new f.Function(function getX() { return this.x; }),
+    }),
+  });
+  assert.equal(_obj1.getX(), _obj2.get(new f.String('getX')).call().value);
+  console.log(_obj2.get('inner'));
+  assert.equal(_obj1.inner.getX(), _obj2.get(new f.String('inner')).get(new f.String('getX')).call().value);
+}); */
+
+QUnit.test('Object', (assert) => {
+  // Basic usage
+  assert.ok(sameObject({}, new f.Object({})));
+  assert.ok(sameObject({
+    a: 'foo',
+    b: 42,
+    c: {},
+  }, new f.Object({
+    a: new f.String('foo'),
+    b: new f.Number(42),
+    c: new f.Object({}),
+  })));
+  assert.ok(sameObject({
+    foo: 'bar',
+    age: 42,
+    baz: {
+      myProp: 12,
+    },
+  }, new f.Object({
+    foo: new f.String('bar'),
+    age: new f.Number(42),
+    baz: new f.Object({
+      myProp: new f.Number(12),
+    }),
+  })));
+  const _obj1 = {
+    x: 5,
+    getX() {
+      return this.x;
+    },
+  };
+  const _obj2 = new f.Object({
+    x: new f.Number(5),
+    getX: new f.Function(function getX() { return this.get('x'); }),
+  });
+  assert.equal(_obj1.getX(), _obj2.get('getX').call().value);
+
+  // Object.assign
+  const _obj3 = { a: 1 };
+  const _obj4 = new f.Object({ a: new f.Number(1) });
+  assert.ok(sameObject(Object.assign({}, _obj3), f.Object.assign({}, _obj4)));
+  const _obj51 = { a: 1 };
+  const _obj52 = { b: 2 };
+  const _obj53 = { c: 3 };
+  const _obj61 = new f.Object({ a: new f.Number(1) });
+  const _obj62 = new f.Object({ b: new f.Number(2) });
+  const _obj63 = new f.Object({ c: new f.Number(3) });
+  assert.ok(sameObject(Object.assign(_obj51, _obj52, _obj53), f.Object.assign(_obj61, _obj62, _obj63)));
+  const _obj71 = { a: 1, b: 1, c: 1 };
+  const _obj72 = { c: 3 };
+  const _obj81 = new f.Object({ a: new f.Number(1), b: new f.Number(1), c: new f.Number(1) });
+  const _obj82 = new f.Object({ c: new f.Number(3) });
+  assert.ok(sameObject(Object.assign({}, _obj71, _obj72), f.Object.assign(new f.Object(), _obj81, _obj82)));
+
+  // Object.create
+  assert.ok(sameObject(Object.create({}), f.Object.create(new f.Object())));
+  const _o1 = Object.create({}, { a: { value: 1 } });
+  const _o2 = f.Object.create(new f.Object(), new f.Object({ a: new f.Object({ value: new f.Number(1) }) }));
+  assert.ok(sameArray(Object.getOwnPropertyNames(_o1), new f.Array(Object.getOwnPropertyNames(f.s(_o2)))));
+
+  // Object.defineProperty
+  const _obj9 = {};
+  const _obj10 = new f.Object({});
+  Object.defineProperty(_obj9, 'a', { value: 'foo' });
+  f.Object.defineProperty(_obj10, new f.String('a'), new f.Object({ value: new f.String('foo') }));
+  assert.ok(sameObject(_obj9, _obj10));
+
+  // Object.defineProperties
+  const _obj11 = {};
+  const _obj12 = new f.Object({});
+  Object.defineProperties(_obj11, {
+    a: {
+      value: 1,
+    },
+    b: {
+      value: 2,
+    },
+  });
+  f.Object.defineProperties(_obj12, new f.Object({
+    a: new f.Object({
+      value: new f.Number(1),
+    }),
+    b: new f.Object({
+      value: new f.Number(2),
+    }),
+  }));
+  assert.ok(sameObject(_obj11, _obj12));
+
+  // Object.entries
+  const _obj13 = { foo: 'bar', baz: 42 };
+  const _obj14 = new f.Object({ foo: new f.String('bar'), baz: new f.Number(42) });
+  assert.ok(sameArray(Object.entries(_obj13)[0], f.s(f.Object.entries(_obj14).get(0))));
+  assert.ok(sameArray(Object.entries(_obj13)[1], f.s(f.Object.entries(_obj14).get(1))));
+
+  // Object.freeze
+  const _obj21 = { foo: 'bar' };
+  const _obj22 = new f.Object({ foo: new f.String('bar') });
+  const _obj23 = Object.freeze(_obj21);
+  const _obj24 = f.Object.freeze(_obj22);
+  assert.ok(sameObject(_obj23, _obj24));
+  assert.throws(() => _obj22.set('foo', 'baz'));
+
+  // Object.getOwnPropertyDescriptor
+  const _obj31 = { foo: 'bar' };
+  const _obj32 = new f.Object({ foo: new f.String('bar') });
+  assert.ok(sameObject(Object.getOwnPropertyDescriptor(_obj31, 'foo'), f.s(f.Object.getOwnPropertyDescriptor(_obj32, new f.String('foo')))));
+
+  // Object.getOwnPropertyDescriptors
+  const _obj41 = { foo: 'bar' };
+  const _obj42 = new f.Object({ foo: new f.String('bar') });
+  assert.ok(sameObject(Object.getOwnPropertyDescriptors(_obj41), f.s(f.Object.getOwnPropertyDescriptors(_obj42))));
+
+  // Object.getOwnPropertyNames
+  const _obj91 = { foo: 'bar', bar: 'baz' };
+  const _obj92 = new f.Object(_obj91);
+  assert.ok(sameArray(Object.getOwnPropertyNames(_obj91), f.s(f.Object.getOwnPropertyNames(_obj92))));
+
+  // Object.getOwnPropertySymbols
+  const _obj101 = {};
+  const a = Symbol('a');
+  _obj101[a] = 'bar';
+  const _obj102 = new f.Object();
+  // @TODO: f.Symbol
+  const b = Symbol('a');
+  _obj102.set(b, new f.String('bar'));
+  assert.ok(sameArray(Object.getOwnPropertySymbols(_obj101), f.s(f.Object.getOwnPropertySymbols(_obj102))));
+
+  // Object.is
+  assert.equal(Object.is('foo', 'foo'), f.Object.is(new f.String('foo'), new f.String('foo')).value);
+  assert.equal(Object.is([], []), f.Object.is(new f.Array(), new f.Array()).value);
+  const _test1 = { a: 1 };
+  const _test2 = new f.Object({ a: new f.Number(1) });
+  assert.equal(Object.is(_test1, _test1), f.Object.is(_test2, _test2).value);
+
+  // Object.preventExtensions
+  const _obj111 = { foo: 'bar' };
+  const _obj112 = new f.Object({ foo: new f.String('bar') });
+  const _obj113 = Object.preventExtensions(_obj111);
+  const _obj114 = f.Object.preventExtensions(_obj112);
+  assert.ok(sameObject(_obj113, _obj114));
+  assert.throws(() => _obj112.set('bar', 'baz'));
+
+  // Object.isExtensible
+  assert.equal(Object.isExtensible({}), f.Object.isExtensible(new f.Object()).value);
+  const _obj121 = { foo: 'bar' };
+  Object.preventExtensions(_obj121);
+  const _obj122 = new f.Object({ foo: 'bar' });
+  f.Object.preventExtensions(_obj122);
+  assert.equal(Object.isExtensible(_obj121), f.Object.isExtensible(_obj122).value);
+
+  // Object.isFrozen
+  assert.equal(Object.isFrozen({}), f.Object.isFrozen(new f.Object()).value);
+  const _obj131 = { foo: 'bar' };
+  Object.freeze(_obj131);
+  const _obj132 = new f.Object({ foo: 'bar' });
+  f.Object.freeze(_obj132);
+  assert.equal(Object.isFrozen(_obj131), f.Object.isFrozen(_obj132).value);
+
+  // Object.seal
+  const _obj141 = { foo: 'bar' };
+  const _obj142 = new f.Object({ foo: new f.String('bar') });
+  Object.seal(_obj141);
+  f.Object.seal(_obj142);
+  assert.throws(() => _obj142.set('bar', 'baz'));
+
+  // Object.isSealed
+  assert.equal(Object.isSealed({}), f.Object.isSealed(new f.Object()).value);
+  const _obj151 = { foo: 'bar' };
+  Object.seal(_obj151);
+  const _obj152 = new f.Object({ foo: 'bar' });
+  f.Object.seal(_obj152);
+  assert.equal(Object.isSealed(_obj151), f.Object.isSealed(_obj152).value);
+
+  // Object.keys
+  assert.ok(sameArray(Object.keys({}), f.Object.keys(new f.Object())));
+  const _obj161 = { foo: 'bar' };
+  const _obj162 = new f.Object({ foo: new f.String('bar') });
+  assert.ok(sameArray(Object.keys(_obj161), f.s(f.Object.keys(_obj162))));
+
+  // Object.values
+  const _obj171 = { foo: 'bar' };
+  const _obj172 = new f.Object({ foo: 'bar' });
+  assert.ok(sameArray(Object.values(_obj171), f.s(f.Object.values(_obj172))));
+
+  // Object.prototype.hasOwnProperty
+  const _o3 = { prop: 'exists' };
+  const _o4 = new f.Object({ prop: new f.String('exists') });
+  assert.equal(Object.prototype.hasOwnProperty.call(_o3, 'prop'), f.Object.prototype.hasOwnProperty.call(_o4, new f.String('prop')).value);
+  assert.equal(Object.prototype.hasOwnProperty.call(_o3, 'foo'), f.Object.prototype.hasOwnProperty.call(_o4, new f.String('foo')).value);
 });

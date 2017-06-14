@@ -21,7 +21,13 @@ class _Array extends Class {
         str = str.replace(/,$/, '');
         return new Error(`Value ${str} is not of type Array or ${this.subtype.typeName} (In f.Array.${from})`);
       },
-    }, Array);
+    }, Array, {
+      indexOf: _Number,
+      join: _String,
+      lastIndexOf: _Number,
+      slice: _Array,
+      toLocaleString: _String,
+    });
   }
   check(newValue) {
     const value = s(newValue);
@@ -143,24 +149,8 @@ class _Array extends Class {
     }
     return new _Boolean(false);
   }
-  indexOf(searchElement, fromIndex = 0) {
-    return new _Number(this._value.map(item => s(item)).indexOf(s(searchElement), s(fromIndex)));
-  }
-  join(separator = ',') {
-    return new _String(this._value.map(item => s(item)).join(s(separator)));
-  }
-  lastIndexOf(searchElement, fromIndex = this.length.value) {
-    return new _Number(
-      this._value.map(item => s(item)).lastIndexOf(s(searchElement), s(fromIndex)));
-  }
-  slice(begin, end) {
-    return new _Array(this._value.slice(s(begin), s(end)));
-  }
   toString() {
     return new _String(this._value.map(item => s(item)).toString());
-  }
-  toLocaleString(locales, options) {
-    return new _String(this._value.map(item => s(item)).toLocaleString(s(locales), s(options)));
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "fetter",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Manages variables",
   "main": "index.js",
   "repository": {
