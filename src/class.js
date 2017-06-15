@@ -7,6 +7,7 @@ export default class Class {
     this.typeName = typeName;
     this.extra = extra;
     this.fetter = true;
+    this.watchers = [];
     this.set(defaultValue);
     if (auto) {
       autoDefine(this, auto, parent.prototype);
@@ -35,11 +36,24 @@ export default class Class {
   get() {
     return this._value;
   }
+  setValue(newValue) {
+    const oldValue = this._value;
+    this._value = newValue;
+    for (let i = 0; i < this.watchers.length; i += 1) {
+      this.watchers[i](oldValue, newValue);
+    }
+  }
   set(newValue) {
     if (this.check(newValue)) {
-      this._value = newValue;
+      this.setValue(s(newValue));
     } else {
       throw new Error(`Value is not of type ${this.typeName}`);
     }
+  }
+  watch(callback) {
+    this.watchers.push(s(callback));
+  }
+  unwatch() {
+    this.watchers = this.watchers.splice(1);
   }
 }

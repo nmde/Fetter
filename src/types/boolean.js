@@ -11,7 +11,7 @@ class _Boolean extends Simple {
     return isBoolean(s(newValue));
   }
   set(newValue) {
-    this._value = Boolean(newValue);
+    this.setValue(Boolean(newValue));
     return this._value;
   }
   toString() {

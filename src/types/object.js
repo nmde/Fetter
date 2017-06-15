@@ -25,15 +25,21 @@ class _Object extends Class {
   set(arg1, arg2) {
     const _arg1 = s(arg1, false);
     if (arg2) {
+      let newVal;
       if (isFunction(s(arg2))) {
-        this._value[_arg1] = new _Function(s(arg2)).bind(this);
+        newVal = new _Function(s(arg2)).bind(this);
       } else if (arg2.fetter) {
-        this._value[_arg1] = arg2;
+        newVal = arg2;
       } else {
-        this._value[_arg1] = new _Any(arg2);
+        newVal = new _Any(arg2);
+      }
+      if (typeof this._value[_arg1] === 'undefined') {
+        this._value[_arg1] = newVal;
+      } else {
+        this._value[_arg1].set(newVal);
       }
     } else if (this.check(_arg1)) {
-      this._value = {};
+      this.setValue({});
       const keys = Object.getOwnPropertyNames(_arg1);
       for (let i = 0; i < keys.length; i += 1) {
         this.set(keys[i], _arg1[keys[i]]);
@@ -96,7 +102,13 @@ class _Object extends Class {
   valueOf() {
     return this.value;
   }
-  // @TODO: watch, unwatch
+  watch(prop, handler) {
+    // Watch uses Fetter's built-in watching system
+    this._value[s(prop)].watch(s(handler));
+  }
+  unwatch(prop) {
+    this._value[s(prop)].unwatch();
+  }
 }
 
 autoDefine(_Object, {

@@ -51,11 +51,11 @@ class _Array extends Class {
   set(newValue) {
     const value = s(newValue);
     if (!newValue) {
-      this._value = [];
+      this.setValue([]);
     } else if (this.check(value)) {
-      this._value = value.map(item => convert(item, this.extra.SubtypeConstructor));
+      this.setValue(value.map(item => convert(item, this.extra.SubtypeConstructor)));
     } else if (isNumber(value)) {
-      this._value = new Array(value);
+      this.setValues(new Array(value));
     } else {
       throw this.extra.makeError('set', newValue);
     }

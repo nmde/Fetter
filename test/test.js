@@ -559,4 +559,16 @@ QUnit.test('Object', (assert) => {
   const _o4 = new f.Object({ prop: new f.String('exists') });
   assert.equal(Object.prototype.hasOwnProperty.call(_o3, 'prop'), f.Object.prototype.hasOwnProperty.call(_o4, new f.String('prop')).value);
   assert.equal(Object.prototype.hasOwnProperty.call(_o3, 'foo'), f.Object.prototype.hasOwnProperty.call(_o4, new f.String('foo')).value);
+
+  // Object.prototype.watch / unwatch
+  const _o5 = new f.Object({ p: new f.Number(1) });
+  const x = new f.Number(5);
+  _o5.watch(new f.String('p'), new f.Function((oldVal, newVal) => {
+    x.set(newVal);
+  }));
+  _o5.set('p', new f.Number(2));
+  assert.equal(x.value, 2);
+  _o5.unwatch('p');
+  _o5.set('p', new f.Number(3));
+  assert.equal(x.value, 2);
 });

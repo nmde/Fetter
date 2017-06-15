@@ -1,10 +1,8 @@
 import isDate from 'lodash/isDate';
-import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import Class from '../class';
 import s from '../simplify';
-import _Any from './any';
 import _Number from './number';
 import _String from './string';
 
@@ -33,11 +31,11 @@ class _Date extends Class {
   }
   set(newValue, ...extra) {
     if (this.check(newValue)) {
-      this._value = newValue;
+      this.setValue(newValue);
     } else if (isString(newValue)) {
-      this._value = new Date(newValue);
+      this.setValue(new Date(newValue));
     } else if (extra.length > 0) {
-      this._value = new Date(newValue, extra);
+      this.setValue(new Date(newValue, extra));
     } else if (isNumber(this.extra.month)) {
       this._value = new Date(
         newValue,
