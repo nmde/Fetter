@@ -1,7 +1,7 @@
 {
   "name": "fetter",
   "version": "0.13.0",
-  "description": "Manages variables",
+  "description": "Enhanced JavaScript types",
   "main": "index.js",
   "repository": {
     "url": "https://github.com/nmde/Fetter",
